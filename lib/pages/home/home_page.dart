@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_swiper/flutter_swiper.dart';
 import 'package:movies_app/provider/movie_provider.dart';
 import 'package:movies_app/widgets/card_swiper_widget.dart';
-
+import 'package:movies_app/widgets/movie_horizontal_widget.dart';
+import 'dart:async';
 class HomePage extends StatelessWidget {
   final moviesProvider = MoviesProvider();
   @override
   Widget build(BuildContext context) {
+    moviesProvider.getPopular();
     return Scaffold(
       appBar: AppBar(
         title: Text('Home Page'),
@@ -19,44 +20,17 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children:<Widget>[
             _createSwiper(),
             _createFooter(context)
           ]
-        )
+        ) 
       ),
     );
-
-    // return SafeArea(
-    //   child: Text('Home Page'),
-    // );
   }
 
   Widget _createSwiper() {
-    // return Container(
-    //   padding: EdgeInsets.only(top: 30.0),
-    //   width: double.infinity,
-    //   height: 200.0,
-    //   child: Swiper(  
-    //     itemBuilder: (BuildContext context,int index){
-    //       return new Image.network("http://via.placeholder.com/350x150",fit: BoxFit.fill,);
-    //     },
-    //     itemCount: 3,
-    //     itemHeight: 300.0,
-    //     itemWidth: 200.0,
-    //     layout: SwiperLayout.STACK,
-
-    //     // pagination: new SwiperPagination(),
-    //     // control: new SwiperControl()
-    //   ),
-    // );
-
-    
-
-    // moviesProvider.getNowPlaying();
-    // return CardSwiperWidget(
-    //   movies: [1,2,3,4]
-    // );
     return FutureBuilder(
       future: moviesProvider.getNowPlaying(),
       builder: (BuildContext context, AsyncSnapshot<List> snapshot)  {
@@ -80,20 +54,42 @@ class HomePage extends StatelessWidget {
     return Container(
       width: double.infinity,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text('Popular', style: Theme.of(context).textTheme.subhead),
-          FutureBuilder(
-            future: moviesProvider.getPopular(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
+          Container(
+            padding: EdgeInsets.only(left: 20.0),
+            child: Text('Popular', style: Theme.of(context).textTheme.subhead)
+          ),
+          SizedBox(height: 5.0,),
+          StreamBuilder(
+            stream: moviesProvider.popularStream,
+            builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
               print(snapshot.data);
-              snapshot.data.forEach((p) {
-                print(p);
-              });
-              return Container();
+              if(snapshot.hasData) {
+                return MovieHorizontal(
+                  movies: snapshot.data,
+                  nextPage: moviesProvider.getPopular
+                );
+              } else {
+                return Center(child: CircularProgressIndicator());
+              }
+              
             },
           )
+          // FutureBuilder(
+          //   future: moviesProvider.getPopular(),
+          //   builder: (BuildContext context, AsyncSnapshot snapshot) {              
+          //     if ( snapshot.data) {
+          //       snapshot.data.forEach((p) {
+          //         print(p);
+          //       });
+          //     }
+          //     return Container();
+          //   },
+          // )
         ],
       )
     );
   }
+  
 }
