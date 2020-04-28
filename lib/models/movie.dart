@@ -71,4 +71,12 @@ class Movie {
       return 'https://cdn2.vectorstock.com/i/1000x1000/60/11/vintage-camera-cartoon-vector-23556011.jpg';
     }
   }
+
+  String getBackdropImage() {
+    if(posterPath != null) {
+      return 'https://image.tmdb.org/t/p/w500/$backdropPath';
+    } else {
+      return 'https://cdn2.vectorstock.com/i/1000x1000/60/11/vintage-camera-cartoon-vector-23556011.jpg';
+    }
+  }
 }
