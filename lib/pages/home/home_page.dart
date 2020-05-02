@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:movies_app/provider/movie_provider.dart';
+import 'package:movies_app/search/search_delegate.dart';
 import 'package:movies_app/widgets/card_swiper_widget.dart';
 import 'package:movies_app/widgets/movie_horizontal_widget.dart';
 import 'dart:async';
@@ -14,7 +15,13 @@ class HomePage extends StatelessWidget {
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.adb),
-            onPressed: () {},
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: DataDelegate(),
+                // query: 'hola'
+              );
+            },
           )
         ],
       ),
@@ -64,7 +71,6 @@ class HomePage extends StatelessWidget {
           StreamBuilder(
             stream: moviesProvider.popularStream,
             builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
-              print(snapshot.data);
               if(snapshot.hasData) {
                 return MovieHorizontal(
                   movies: snapshot.data,

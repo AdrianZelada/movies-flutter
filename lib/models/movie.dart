@@ -29,6 +29,7 @@ class Movie {
   double voteAverage;
   String overview;
   String releaseDate;
+  String uniqueId;
 
   Movie({
     this.popularity,
@@ -52,7 +53,7 @@ class Movie {
     voteCount         = json['vote_count'];
     video             = json['video'];
     posterPath        = json['poster_path'];
-    id                = json['id'];
+    id                = json[ 'id'];
     adult             = json['adult'];
     backdropPath      = json['backdrop_path'];
     originalLanguage  = json['original_language'];

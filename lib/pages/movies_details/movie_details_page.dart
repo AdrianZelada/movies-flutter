@@ -59,13 +59,12 @@ class MovieDetailsPage extends StatelessWidget {
   }
 
   Widget _posterTitle(BuildContext context, Movie movie) {
-    print(movie.id);
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20.0),
       child: Row(
         children: <Widget>[
           Hero(
-            tag: movie.id,
+            tag: movie.uniqueId,
             child: ClipRRect(
               borderRadius: BorderRadius.circular(20.0),
               child: Image(
@@ -149,7 +148,7 @@ class MovieDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _cardActor(Actor actor){
+  Widget _cardActor(Actor actor){    
     return Container(
       child: Column(
         children: <Widget>[          

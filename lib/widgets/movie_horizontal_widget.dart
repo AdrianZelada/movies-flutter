@@ -40,12 +40,13 @@ class MovieHorizontal extends StatelessWidget {
   }
 
   Widget _createCard(context, Movie movie) {
+    movie.uniqueId = '${movie.id}-horizontal-targel';
     final card = Container(
         margin: EdgeInsets.only(right: 15.0),
         child: Column(
           children: <Widget>[
             Hero(
-              tag: movie.id,
+              tag: movie.uniqueId,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(20.0),
                 child: FadeInImage(
@@ -68,13 +69,12 @@ class MovieHorizontal extends StatelessWidget {
     return GestureDetector(
       child: card,
       onTap: () {
-        print('id of movie ${movie.id}');
         Navigator.pushNamed(
           context,
           'details',
           arguments: movie
         );
-      }
+      } 
     );
   }
 
